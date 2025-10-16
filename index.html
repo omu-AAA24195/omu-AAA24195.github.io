@@ -8,6 +8,9 @@
         function updateClock() {
             // 現在時刻を取得
             var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
             var hours = now.getHours();
             var minutes = now.getMinutes();
             var seconds = now.getSeconds();
@@ -18,7 +21,7 @@
             if (seconds < 10) seconds = '0' + seconds;
             
             // 時刻を表示
-            var timeString = now + : + hours + ':' + minutes + ':' + seconds;
+            var timeString = year + "/" + month + "/" + date + "/" + hours + ':' + minutes + ':' + seconds;
             document.getElementById('clock').innerHTML = timeString;
         }
         
@@ -37,7 +40,6 @@
         00:00:00
     </div>
     
-    <!-- ここに既存のコンテンツを配置 -->
     <img src="https://th.bing.com/th/id/R.dbad0d12c46c1e137035835bd5a3107c?rik=JTD4buWvau6d2g&riu=http%3a%2f%2fwww.tmyun.com%2fmid%2fyun_11956.jpg&ehk=KWXunTWv8bSSSCdr24nPrPDq6fvlYvCeJeI4Rzxt9Fw%3d&risl=&pid=ImgRaw&r=0" width="300" height="300" alt="マルゲリータの画像">
     <h1>🌐 Phase 0-1: HTML基礎確認</h1>
     <div>
