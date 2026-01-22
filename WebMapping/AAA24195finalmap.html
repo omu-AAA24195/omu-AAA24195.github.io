@@ -72,23 +72,32 @@
             // 下のようにも書ける
             L.marker([34.592331,135.505276]).bindPopup('杉本キャンパス').addTo(map);
             
-            //map.attributionControl.addAttribution(
-            //'<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-P29-v2_0.html">国土数値情報 - 学校データ</a>',
-            //);
-            // GeoJSONレイヤーを作成(11-2)
+            // GeoJSONレイヤーを作成
             fetch('27140_1.geojson')// 堺市の指定避難所データGeoJSONを非同期読み込み
-            //fetch('./P29-21.geojson') // 全国分の学校データ（5万件超）のGeoJSONを非同期読み込み
             .then((res) => res.json())
             .then((json) => {
             // クラスタリングレイヤーを作成し地図に追加
             const markers = L.markerClusterGroup()
-            .bindPopup(
-                (layer) => layer.feature.properties.P29_004, // ポップアップで学校名を表示
-            )
             .addTo(map);
             L.geoJSON(json).addTo(markers); // クラスタリングレイヤーにGeoJSONデータをセット
+
             // チェックボックス
             LayerControl.addOverlay(markers, "指定避難所")
+            });
+
+            // 行政区域レイヤーを作成
+            fetch("./N03-23_27_230101.geojson") // 行政区域データを非同期読み込み
+            .then((response) => response.json())
+            .then((data) => {
+            // 特定の値によりGeoJSONをフィルタリング
+            var filteredData = data.features.filter(feature => feature.properties.N03_004 === '堺市中区');
+            var selected_area = L.geoJSON(filteredData)
+                .bindPopup((layer) => layer.feature.properties.N03_004) // ポップアップで表示
+            map.addLayer(selected_area)
+            // チェックボックス
+            LayerControl.addOverlay(selected_area, "行政区域")
+            // GeoJSONレイヤに地図がフィットするように表示範囲を自動調整
+            map.fitBounds(selected_area.getBounds());
         });
             
 
